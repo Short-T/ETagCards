@@ -16,7 +16,6 @@ import card_deck
 from ascii_cards import print_hand
 from nfc_connector import NFCReader
 
-discard_mac = ""
 discard_id = 0
 PLAYER_CARDS = ["E1000001CFB7", "E1000001CF41", "E1000001CF73",
                 "E1000001CF66", "E1000001CF43", "E1000001CEFC",
@@ -70,7 +69,12 @@ def run_enter_name(state):
             continue
 
         if event_type != "input":
-            continue
+            if event_type == "nfc":
+                #Assign discard card
+                state.discard_mac = value
+                continue
+            else:
+                continue
 
         name = value.strip()
         if not name:
@@ -241,7 +245,7 @@ def run_game(state, api):
                             state.user_id,
                             state.contact_id,
                             selected_cards=state.your_cards,
-                            discard_card_id=discarded_card,
+                            discard_card_id=state.discard_card_index,
                             restart_flag=0,
                             user_cards=len(state.your_cards)
                         )

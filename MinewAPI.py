@@ -11,7 +11,7 @@ class MinewAPI:
         self.STORE_ID = '1649302965594361856'
         self.DATA_ID = 'Alpha1A'
         self.BLANK_TEMPLATE_ID = '1843767205490069504'
-        #self.BLANK_TEMPLATE_ID = '2020214213040934912'
+        #self.BLANK_TEMPLATE_ID = '2022404920786817024'
         self.token = auth.get_token()
         self.tokenHeader = {'token': str(self.token)}
         self.contentTypeAndTokenHeader = {'Content-Type':'application/json;charset=utf-8', 'token': str(self.token)}
