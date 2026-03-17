@@ -14,21 +14,18 @@
 #
 # Discard template ID is included for index 0.
 
-DISCARD_TEMPLATE_ID = "2020214213040934912"   # Tangible discard template
+DISCARD_TEMPLATE_ID = '2022404920786817024'   # Tangible discard template
 
 
 # ------------------------------------------------------------
 # 1. Android Deck Definition (Indices 0–52)
 # ------------------------------------------------------------
 
-# Index 0 is the discard placeholder ("1D.png" in Android)
+SUITS = ["C", "D", "H", "S"]
+RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+
 CARD_INDEX_TO_NAME = {0: "DISCARD"}
 
-# Android rank/suit order
-RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-SUITS = ["H", "S", "D", "C"]   # Hearts, Spades, Diamonds, Clubs
-
-# Fill indices 1–52
 idx = 1
 for rank in RANKS:
     for suit in SUITS:

@@ -75,6 +75,7 @@ class MinewAPI:
     #   transferCards(mac1, mac2) - transfer the card in mac1 to mac2 and clear mac1
     #   clearAll(macAddresses) - clear all cards in array
     ######              ######
+    count = 0;
     def update_device_binding(self, macAddress, templateId):
         updateDeviceData = {
             "labelMac":macAddress,
@@ -87,9 +88,12 @@ class MinewAPI:
                                             data=json.dumps(updateDeviceData))
         
         response_json = updateDeviceResponse.json()
+        print(response_json)
         if response_json.get('code') == 200:
             self.macTemplateDict[macAddress] = templateId
-        print(response_json)
+        if response_json.get('code') == 54015:
+            self.update_device_binding(macAddress, templateId) #retry
+            print("Performing retry")
         return response_json
 
     # Sets all cards in the macAddresses array to the template with the given templateId

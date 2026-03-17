@@ -8,6 +8,7 @@ import argparse
 import re
 import time
 import sys
+import winsound
 
 from server_api import api
 from game_state import GameState
@@ -17,7 +18,7 @@ from ascii_cards import print_hand
 from nfc_connector import NFCReader
 
 discard_id = 0
-PLAYER_CARDS = ["E1000001CFB7", "E1000001CF41", "E1000001CF73",
+PLAYER_CARDS = ["E1000001CFB7", "E1000001CF41",
                 "E1000001CF66", "E1000001CF43", "E1000001CEFC",
                 "E1000001CF00", "E1000001CEF9", "E1000001CEFD"]
 UID_TO_MAC = {}
@@ -186,6 +187,11 @@ def run_game(state, api):
         state.your_macs.append(mac)
         state.your_cards.append(card)
         api.update_device_binding(mac, card_deck.CARD_INDEX_TO_TEMPLATE_ID[card])
+    
+    discard_template = card_deck.CARD_INDEX_TO_TEMPLATE_ID[0]
+    for mac in PLAYER_CARDS:
+        if mac not in state.your_macs:
+            api.update_device_binding(mac, discard_template)
 
     # Update server with initial game state
     server_connector.update_state(
@@ -215,6 +221,7 @@ def run_game(state, api):
 
                 if dis != state.discard_card_index:
                     print(f"Opponent discarded card index {dis}")
+                    winsound.Beep(1000, 200)  # frequency, duration(ms)
                     if dis == -1:
                         # Show blank discard or placeholder
                         api.update_device_binding(
